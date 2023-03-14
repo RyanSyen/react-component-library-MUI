@@ -1,0 +1,21 @@
+npm-install commands and params
+-------------------------------
+https://docs.npmjs.com/cli/v6/commands/npm-install
+
+Normal Dependencies 
+-------------------
+npm i react-spring @mui/material @emotion/react @emotion/styled @mui/styled-engine-sc styled-components @mui/icons-material react-router-dom react-scripts
+
+Dev Dependencies
+----------------
+npm i -D -E prettier
+npm i -D eslint-config-react-app eslint@^8.0.0 eslint eslint-plugin-react eslint-config-prettier eslint-config-airbnb eslint-plugin-simple-import-sort eslint-plugin-prettier eslint-plugin-import prop-types
+    - after running this command, create a file at your root project called .eslintrc.json and insert the following content:
+    {
+        "extends": [
+            "airbnb",
+            "eslint:recommended",
+            "plugin:react/recommended",
+            "plugin:prettier/recommended"
+        ],
+    }
