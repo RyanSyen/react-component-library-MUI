@@ -33,13 +33,16 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@hello-pangea/dnd": "^16.2.0",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@mui/styled-engine-sc": "^5.11.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
+    "react-scripts": "^5.0.1",
     "react-spring": "^9.7.1",
+    "react-swm-icon-pack": "^1.0.14",
     "styled-components": "^5.3.9"
   },
   "devDependencies": {

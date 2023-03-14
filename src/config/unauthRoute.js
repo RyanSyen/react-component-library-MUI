@@ -1,5 +1,7 @@
 import Placeholder from "../pages/Placeholder";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
+import SortableDND from "../pages/Sortable/Sortable";
+import TreeView from "../pages/Treeview/Treeview";
 
 const unauthenticatedRoute = Object.freeze([
   {
@@ -8,24 +10,18 @@ const unauthenticatedRoute = Object.freeze([
     path: "/placeholder",
     element: <Placeholder />,
   },
-  // {
-  //   id: "Sortable",
-  //   name: "Sortable",
-  //   path: "/sortable",
-  //   element: <Sortable />,
-  // },
-  // {
-  //   id: "Default_Sortable",
-  //   name: "Default Sortable",
-  //   path: "/default-sortable",
-  //   element: <DefaultSortable />,
-  // },
-  // {
-  //   id: "SortableDND",
-  //   name: "SortableDND",
-  //   path: "/sortabelDND",
-  //   element: <SortableDND />,
-  // },
+  {
+    id: "SortableDND",
+    name: "SortableDND",
+    path: "/sortable",
+    element: <SortableDND />,
+  },
+  {
+    id: "TreeView",
+    name: "TreeView",
+    path: "/treeview",
+    element: <TreeView />,
+  },
 ]);
 
 export default unauthenticatedRoute;

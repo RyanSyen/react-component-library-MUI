@@ -1,0 +1,10 @@
+.contentDiv {
+  /* width: 100%; */
+  /* margin-left: auto;
+    margin-right: auto; */
+
+  /* height: 40px; */
+  position: relative;
+  touch-action: none !important;
+  margin: 24px;
+}

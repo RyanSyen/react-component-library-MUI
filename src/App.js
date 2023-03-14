@@ -18,7 +18,8 @@ const UnauthenticatedApp = () => {
         );
       })}
       <Route path="*" element={<Navigate to="/placeholder" />} />
-      {/* <Route path="/default-sortable" element={<Navigate to="/sortable" />} /> */}
+      <Route path="/default-sortable" element={<Navigate to="/sortable" />} />
+      <Route path="/treeview" element={<Navigate to="/treeview" />} />
     </Routes>
   );
 };

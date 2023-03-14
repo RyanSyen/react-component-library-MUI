@@ -5,6 +5,7 @@ https://docs.npmjs.com/cli/v6/commands/npm-install
 Normal Dependencies 
 -------------------
 npm i react-spring @mui/material @emotion/react @emotion/styled @mui/styled-engine-sc styled-components @mui/icons-material react-router-dom react-scripts
+npm i @hello-pangea/dnd -> drag and drop library
 
 Dev Dependencies
 ----------------
