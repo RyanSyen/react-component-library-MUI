@@ -1,4 +1,6 @@
+/* eslint-disable consistent-return */
 import * as React from "react";
+import { useEffect, useState } from "react";
 // import MailIcon from "@mui/icons-material/Mail";
 // import InboxIcon from "@mui/icons-material/MoveToInbox";
 import AppBar from "@mui/material/AppBar";
@@ -14,8 +16,48 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import Basic from "./Basic";
+import RichObjectTreeView from "./RichObj";
+
 const LeftNavBar = () => {
   const drawerWidth = 240;
+
+  const [currentTreeView, setCurrentTreeView] = useState("basic");
+
+  useEffect(() => {
+    console.log(currentTreeView);
+  }, [currentTreeView]);
+
+  //   const TypesView = type => {
+  //     switch (type) {
+  //       case "basic":
+  //         setCurrentTreeView("basic");
+  //         return <Basic />;
+  //       case "richobj":
+  //         setCurrentTreeView("rich obj");
+  //         return <RichObjectTreeView />;
+  //       default:
+  //         console.error("invalid tree type");
+  //         return <Typography>Test</Typography>;
+  //     }
+
+  //     return {};
+  //   };
+
+  const onclickHandler = type => {
+    // switch (type) {
+    //   case "basic":
+    //     setCurrentTreeView("basic");
+    //     return <Basic />;
+    //   case "richobj":
+    //     setCurrentTreeView("rich obj");
+    //     return <RichObjectTreeView />;
+    //   default:
+    //     console.error("invalid tree type");
+    // }
+    setCurrentTreeView(type);
+    console.log(type);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -56,8 +98,14 @@ const LeftNavBar = () => {
             </ListItem>
           ))} */}
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={() => onclickHandler("basic")}>
               <ListItemText primary="basic" />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("rich-obj")}>
+              <ListItemText primary="rich obj" />
             </ListItemButton>
           </ListItem>
         </List>
@@ -80,7 +128,8 @@ const LeftNavBar = () => {
         sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
       >
         <Toolbar />
-        <Typography>Test</Typography>
+        {currentTreeView === "basic" && <Basic />}
+        {currentTreeView === "rich-obj" && <RichObjectTreeView />}
       </Box>
     </Box>
   );
