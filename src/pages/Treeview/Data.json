@@ -1,0 +1,68 @@
+[
+  {
+    "id": "63fc759a4e2a0af4916635ae",
+    "name": "R1",
+    "createdAt": "2023-02-27T09:19:22Z",
+    "updatedAt": "2023-02-27T09:19:22Z",
+    "parentId": null,
+    "breadcrumb": "",
+    "count": {
+      "folders": "0"
+    }
+  },
+  {
+    "id": "63fc759f4e2a0af4916635af",
+    "name": "R2",
+    "createdAt": "2023-02-27T09:19:27Z",
+    "updatedAt": "2023-02-27T09:19:27Z",
+    "parentId": null,
+    "breadcrumb": "",
+    "count": {
+      "folders": "0"
+    }
+  },
+  {
+    "id": "63fc75a24e2a0af4916635b0",
+    "name": "R3",
+    "createdAt": "2023-02-27T09:19:30Z",
+    "updatedAt": "2023-02-27T10:27:50Z",
+    "parentId": null,
+    "breadcrumb": "",
+    "count": {
+      "folders": "1"
+    }
+  },
+  {
+    "id": "63fc75b84e2a0af4916635b2",
+    "name": "3.2",
+    "createdAt": "2023-02-27T09:19:52Z",
+    "updatedAt": "2023-02-27T09:19:52Z",
+    "parentId": "63fc75a24e2a0af4916635b0",
+    "breadcrumb": "R3",
+    "count": {
+      "folders": "0"
+    }
+  },
+  {
+    "id": "63fc75bb4e2a0af4916635b3",
+    "name": "3.3",
+    "createdAt": "2023-02-27T09:19:55Z",
+    "updatedAt": "2023-02-27T09:19:55Z",
+    "parentId": "63fc75a24e2a0af4916635b0",
+    "breadcrumb": "R3",
+    "count": {
+      "folders": "1"
+    }
+  },
+  {
+    "id": "63fc75bb4e2a0af4916635b4",
+    "name": "3.1.1",
+    "createdAt": "2023-02-27T09:19:55Z",
+    "updatedAt": "2023-02-27T09:19:55Z",
+    "parentId": "63fc75bb4e2a0af4916635b3",
+    "breadcrumb": "3.3",
+    "count": {
+      "folders": "0"
+    }
+  }
+]

@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import MailIcon from "@mui/icons-material/Mail";
 // import InboxIcon from "@mui/icons-material/MoveToInbox";
 import AppBar from "@mui/material/AppBar";
@@ -24,9 +24,9 @@ const LeftNavBar = () => {
 
   const [currentTreeView, setCurrentTreeView] = useState("basic");
 
-  useEffect(() => {
-    console.log(currentTreeView);
-  }, [currentTreeView]);
+  //   useEffect(() => {
+  //     // console.log(currentTreeView);
+  //   }, [currentTreeView]);
 
   //   const TypesView = type => {
   //     switch (type) {
@@ -56,7 +56,7 @@ const LeftNavBar = () => {
     //     console.error("invalid tree type");
     // }
     setCurrentTreeView(type);
-    console.log(type);
+    // console.log(type);
   };
 
   return (
