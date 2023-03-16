@@ -54,7 +54,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const RichObjectTreeView = () => {
+const Working = () => {
   const [data, setData] = useState([]);
   const dataFetchedRef = useRef(false);
   const [expanded, setExpanded] = useState([]);
@@ -80,10 +80,6 @@ const RichObjectTreeView = () => {
     dataFetchedRef.current = true;
   });
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
   useEffect(() => {
     console.log(expanded);
   }, [expanded]);
@@ -101,19 +97,6 @@ const RichObjectTreeView = () => {
       newCurrentNode.count.folder = "1";
       newCurrentNode.children.push(newObj);
       setData(newData);
-
-      // add new folder
-      //   const currentNode = currentFolderNode.current;
-      //   console.log(currentNode);
-      //   TreeViewHelper.updateNode(currentNode.id, currentNode => {
-      //     (currentNode.id = "63fc75bb4e2a0af4916635b5"),
-      //       (currentNode.name = "new folder"),
-      //       (currentNode.createdAt = "2023-02-27T09:19:55Z"),
-      //       (currentNode.updatedAt = "2023-02-27T09:19:55Z"),
-      //       (currentNode.parentId = null),
-      //       (currentNode.breadcrumb = "3.3"),
-      //       (currentNode.count.folders = "0");
-      //   });
     };
 
     return {
@@ -127,7 +110,7 @@ const RichObjectTreeView = () => {
     console.log(`clicked ${id}`);
   };
 
-  const handleToggle = (e, nodeId) => {
+  const handleToggle = nodeId => {
     // console.log(nodeIds);
     console.log(nodeId);
     // setExpanded(nodeIds);
@@ -256,4 +239,4 @@ const RichObjectTreeView = () => {
   );
 };
 
-export default RichObjectTreeView;
+export default Working;

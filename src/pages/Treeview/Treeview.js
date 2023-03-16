@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable consistent-return */
 import * as React from "react";
 import { useState } from "react";
@@ -17,7 +18,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import Basic from "./Basic";
+import Custom from "./Custom";
+import Custom2 from "./Custom_v2";
+import CustomDocs from "./CustomDocs";
 import RichObjectTreeView from "./RichObj";
+import Working from "./Working";
 
 const LeftNavBar = () => {
   const drawerWidth = 240;
@@ -68,7 +73,7 @@ const LeftNavBar = () => {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Permanent drawer
+            {currentTreeView}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -108,6 +113,26 @@ const LeftNavBar = () => {
               <ListItemText primary="rich obj" />
             </ListItemButton>
           </ListItem>
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("working")}>
+              <ListItemText primary="working" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("custom")}>
+              <ListItemText primary="custom" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("custom-docs")}>
+              <ListItemText primary="custom docs" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("custom_v2")}>
+              <ListItemText primary="custom_v2" />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
         {/* <List>
@@ -130,6 +155,10 @@ const LeftNavBar = () => {
         <Toolbar />
         {currentTreeView === "basic" && <Basic />}
         {currentTreeView === "rich-obj" && <RichObjectTreeView />}
+        {currentTreeView === "working" && <Working />}
+        {currentTreeView === "custom" && <Custom />}
+        {currentTreeView === "custom-docs" && <CustomDocs />}
+        {currentTreeView === "custom_v2" && <Custom2 />}
       </Box>
     </Box>
   );
