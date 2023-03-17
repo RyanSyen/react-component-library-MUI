@@ -69,6 +69,10 @@ const Custom2 = () => {
       newCurrentNode.children.push(newObj);
       newCurrentNode.updatedAt = getCurrentDate();
       setInfo(newData);
+      // expand the parent folder
+      if (!expandedNodes.includes(currentNode)) {
+        setExpandedNodes([...expandedNodes, currentNode]);
+      }
     };
     const traverseTree = (nodes, targetNodeId) => {
       for (const node of nodes) {
@@ -191,6 +195,12 @@ const Custom2 = () => {
 
     // called when user clicks on the expansion icon and toggles the item's expansion state by calling the 'handleExpansion()' function
     const handleExpansionClick = event => {
+      if (expandedNodes.includes(nodeId)) {
+        setExpandedNodes(expandedNodes.filter(id => id !== nodeId));
+        // console.log(expandedNodes);
+      } else {
+        setExpandedNodes([...expandedNodes, nodeId]);
+      }
       handleExpansion(event);
     };
 
@@ -202,14 +212,14 @@ const Custom2 = () => {
     };
 
     // callback fired when items are expanded/collapsed
-    const handleToggle = () => {
-      if (expandedNodes.includes(nodeId)) {
-        setExpandedNodes(expandedNodes.filter(id => id !== nodeId));
-        // console.log(expandedNodes);
-      } else {
-        setExpandedNodes([...expandedNodes, nodeId]);
-      }
-    };
+    // const handleToggle = () => {
+    //   if (expandedNodes.includes(nodeId)) {
+    //     setExpandedNodes(expandedNodes.filter(id => id !== nodeId));
+    //     // console.log(expandedNodes);
+    //   } else {
+    //     setExpandedNodes([...expandedNodes, nodeId]);
+    //   }
+    // };
 
     return (
       <div
@@ -233,7 +243,6 @@ const Custom2 = () => {
           <div
             onClick={() => {
               handleExpansionClick();
-              handleToggle();
             }}
             className={classes.iconContainer}
           >
@@ -297,7 +306,7 @@ const Custom2 = () => {
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           expanded={expandedNodes}
-          sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+          sx={{ height: 500, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
         >
           {info.map(item => {
             return renderTreeItems(item);

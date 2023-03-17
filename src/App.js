@@ -25,6 +25,7 @@ const UnauthenticatedApp = () => {
         element={<Navigate to="/paginationview" />}
       />
       <Route path="/feedbackview" element={<Navigate to="/feedbackview" />} />
+      <Route path="/navbarview" element={<Navigate to="/navbarview" />} />
     </Routes>
   );
 };

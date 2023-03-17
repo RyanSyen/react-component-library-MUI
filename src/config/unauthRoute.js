@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import FeedbackView from "../pages/Feedback/Feedback";
+import { BackToTop, NavbarView } from "../pages/Navbar";
 import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
@@ -35,6 +37,12 @@ const unauthenticatedRoute = Object.freeze([
     name: "FeedbackView",
     path: "/feedbackview",
     element: <FeedbackView />,
+  },
+  {
+    id: "NavbarView",
+    name: "NavbarView",
+    path: "/navbarview",
+    element: <BackToTop />,
   },
 ]);
 

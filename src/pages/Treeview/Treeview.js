@@ -142,11 +142,11 @@ const LeftNavBar = () => {
               <ListItemText primary="custom_v2" />
             </ListItemButton>
           </ListItem>
-          <ListItem>
+          {/* <ListItem>
             <ListItemButton onClick={() => onclickHandler("folders")}>
               <ListItemText primary="folders" />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
         {/* <List>
