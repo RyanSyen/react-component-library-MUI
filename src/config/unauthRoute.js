@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import FeedbackView from "../pages/Feedback/Feedback";
+import ResponsiveGrid from "../pages/Grid/index";
 import { BackToTop, NavbarView } from "../pages/Navbar";
 import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
@@ -43,6 +44,12 @@ const unauthenticatedRoute = Object.freeze([
     name: "NavbarView",
     path: "/navbarview",
     element: <BackToTop />,
+  },
+  {
+    id: "ResponsiveGrid",
+    name: "ResponsiveGrid",
+    path: "/responsivegrid",
+    element: <ResponsiveGrid />,
   },
 ]);
 
