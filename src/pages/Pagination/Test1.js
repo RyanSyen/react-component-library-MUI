@@ -8,6 +8,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { usePagination } from "@mui/material";
 
+import Pagination from "../../components/Pagination/Pagination";
+
 const data = require("./MOCK_DATA.json");
 
 const Test1 = () => {
@@ -28,18 +30,6 @@ const Test1 = () => {
     console.log(...props, value);
     setCurrentPage(value);
   };
-
-  // the property 'items' refers to the number of buttons on the pagination list
-  // e.g. 'previous', '1', '2', '3', '4', '5', '...', '100', 'next' -> total 9 objects in the items property
-  const { items } = usePagination({
-    count: pageCount,
-    page: currentPage,
-    // onChange: onPageChange,
-    //* how to pass additional props when click on the button
-    onChange: (event, value) => onPageChange(event, value, test),
-  });
-
-  console.log(items);
 
   return (
     <div>
@@ -65,34 +55,11 @@ const Test1 = () => {
           ))}
         </tbody>
       </table>
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-        {/* props in items: disabled, onClick, page, selected, type */}
-        {items.map(({ page, type, selected, ...item }, index) => {
-          let children = null;
-
-          if (type === "start-ellipsis" || type === "end-ellipsis") {
-            children = "...";
-          } else if (type === "page") {
-            children = (
-              <button
-                type="button"
-                style={{ fontWeight: selected ? "bold" : undefined }}
-                {...item}
-              >
-                {page}
-              </button>
-            );
-          } else {
-            children = (
-              <button type="button" {...item}>
-                {type}
-              </button>
-            );
-          }
-
-          return <div key={index}>{children}</div>;
-        })}
-      </div>
+      <Pagination
+        pageCount={pageCount}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };
