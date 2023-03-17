@@ -62,6 +62,8 @@ const treeView = () => {
         id: item.id,
         name: item.name,
         parentId: item.parentId,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
         children: [],
         count: {
           folder: item.count.folders,

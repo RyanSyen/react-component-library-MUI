@@ -1,3 +1,7 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-unstable-nested-components */
@@ -16,15 +20,30 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TreeItem, { useTreeItem } from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
-import Typography from "@mui/material/Typography";
+import { Button, Typography } from "@mui/material";
 import clsx from "clsx";
+import { node } from "prop-types";
 
 import TreeViewHelper from "./helper";
+
+const newObj = {
+  id: "63fc75bb4e2a0af4916635b5",
+  name: "new folder",
+  createdAt: "2023-02-27T09:19:55Z",
+  updatedAt: "2023-02-27T09:19:55Z",
+  parentId: null,
+  breadcrumb: "3.3",
+  count: {
+    folder: "0",
+  },
+  children: [],
+};
 
 const Custom2 = () => {
   const [info, setInfo] = useState([]);
   const [expandedNodes, setExpandedNodes] = useState([]);
   const dataFetchedRef = useRef(false);
+  const currentFolderNodeRef = useRef({});
 
   const logDataStateChange = newData => {
     console.log("Updated State:", newData);
@@ -45,6 +64,47 @@ const Custom2 = () => {
   //   useEffect(() => {
   //     console.log(expandedNodes);
   //   }, [expandedNodes]);
+
+  const actions = (() => {
+    const addFolder = () => {
+      const newData = [...info];
+      const currentNode = currentFolderNodeRef.current;
+      const newNode = currentNode;
+      console.log(newData);
+      console.log(currentNode);
+
+      const newCurrentNode = traverseTree(newData, currentNode);
+      console.log(newCurrentNode);
+      newObj.parentId = currentNode;
+      // newObj.parentId = currentNode.id;
+      newCurrentNode.count.folder = "1";
+      // if (!newCurrentNode.children) {
+      //   newCurrentNode.children = [];
+      // }
+      newCurrentNode.children.push(newObj);
+      setInfo(newData);
+    };
+    const traverseTree = (nodes, targetNodeId) => {
+      for (const node of nodes) {
+        if (node.id === targetNodeId) {
+          console.log(node);
+          return node;
+        }
+        if (node.children && node.children.length > 0) {
+          // recursively traverse all children of the current node
+          console.log(node.children);
+          const result = traverseTree(node.children, targetNodeId);
+          // to prevent function from continuing to execute after return statement, add return statement before recursive call. It will stop executing when the result / target node is found
+          if (result) {
+            return result;
+          }
+        }
+      }
+    };
+    return {
+      addFolder,
+    };
+  })();
 
   // React.forwardRef is used to create ref to the DOM node
   const CustomContent = React.forwardRef(function CustomContent(props, ref) {
@@ -96,6 +156,7 @@ const Custom2 = () => {
     // called when user clicks on the TreeItem label and toggles the item's selection state by calling 'handleSelection()' function
     const handleSelectionClick = event => {
       console.log(nodeId);
+      currentFolderNodeRef.current = nodeId;
       handleSelection(event);
     };
 
@@ -103,7 +164,7 @@ const Custom2 = () => {
     const handleToggle = () => {
       if (expandedNodes.includes(nodeId)) {
         setExpandedNodes(expandedNodes.filter(id => id !== nodeId));
-        console.log(expandedNodes);
+        // console.log(expandedNodes);
       } else {
         setExpandedNodes([...expandedNodes, nodeId]);
       }
@@ -139,7 +200,7 @@ const Custom2 = () => {
           component="div"
           className={classes.label}
         >
-          {label}
+          {`${label} + ${nodeId}`}
         </Typography>
       </div>
     );
@@ -168,6 +229,20 @@ const Custom2 = () => {
 
   return (
     <div>
+      <Button
+        className="XyanButton"
+        onClick={actions.addFolder}
+        variant="contained"
+        sx={{
+          fontSize: "14px",
+          fontWeight: 600,
+          letterSpacing: "0.46px",
+          borderRadius: "20px",
+          marginBottom: "25px",
+        }}
+      >
+        Add New
+      </Button>
       {info.length > 0 ? (
         <TreeView
           aria-label="icon expansion"
