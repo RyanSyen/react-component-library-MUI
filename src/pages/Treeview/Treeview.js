@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 /* eslint-disable consistent-return */
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import MailIcon from "@mui/icons-material/Mail";
 // import InboxIcon from "@mui/icons-material/MoveToInbox";
 import AppBar from "@mui/material/AppBar";
@@ -21,6 +22,7 @@ import Basic from "./Basic";
 import Custom from "./Custom";
 import Custom2 from "./Custom_v2";
 import CustomDocs from "./CustomDocs";
+import Folders from "./Folder";
 import RichObjectTreeView from "./RichObj";
 import Working from "./Working";
 
@@ -28,10 +30,17 @@ const LeftNavBar = () => {
   const drawerWidth = 240;
 
   const [currentTreeView, setCurrentTreeView] = useState("basic");
+  // const contentLoaded = useRef(false);
 
-  //   useEffect(() => {
-  //     // console.log(currentTreeView);
-  //   }, [currentTreeView]);
+  // useEffect(() => {
+  //   if (contentLoaded.current) return;
+  //   setCurrentTreeView("basic");
+  //   contentLoaded.current = true;
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(currentTreeView);
+  // }, [currentTreeView]);
 
   //   const TypesView = type => {
   //     switch (type) {
@@ -133,6 +142,11 @@ const LeftNavBar = () => {
               <ListItemText primary="custom_v2" />
             </ListItemButton>
           </ListItem>
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("folders")}>
+              <ListItemText primary="folders" />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
         {/* <List>
@@ -159,6 +173,7 @@ const LeftNavBar = () => {
         {currentTreeView === "custom" && <Custom />}
         {currentTreeView === "custom-docs" && <CustomDocs />}
         {currentTreeView === "custom_v2" && <Custom2 />}
+        {currentTreeView === "folders" && <Folders />}
       </Box>
     </Box>
   );

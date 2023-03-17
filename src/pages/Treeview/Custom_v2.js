@@ -18,36 +18,21 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import TreeItem, { useTreeItem } from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
 import { Button, Typography } from "@mui/material";
 import clsx from "clsx";
 import { node } from "prop-types";
+import { v4 as uuidv4 } from "uuid";
 
 import TreeViewHelper from "./helper";
-
-const newObj = {
-  id: "63fc75bb4e2a0af4916635b5",
-  name: "new folder",
-  createdAt: "2023-02-27T09:19:55Z",
-  updatedAt: "2023-02-27T09:19:55Z",
-  parentId: null,
-  breadcrumb: "3.3",
-  count: {
-    folder: "0",
-  },
-  children: [],
-};
 
 const Custom2 = () => {
   const [info, setInfo] = useState([]);
   const [expandedNodes, setExpandedNodes] = useState([]);
   const dataFetchedRef = useRef(false);
   const currentFolderNodeRef = useRef({});
-
-  const logDataStateChange = newData => {
-    console.log("Updated State:", newData);
-  };
 
   useEffect(() => {
     if (dataFetchedRef.current) return;
@@ -57,31 +42,32 @@ const Custom2 = () => {
     dataFetchedRef.current = true;
   }, []);
 
-  //   useEffect(() => {
-  //     console.log(info);
-  //   }, [info]);
-
-  //   useEffect(() => {
-  //     console.log(expandedNodes);
-  //   }, [expandedNodes]);
-
   const actions = (() => {
     const addFolder = () => {
+      const newObj = {
+        id: uuidv4(),
+        name: "new folder",
+        createdAt: getCurrentDate(),
+        updatedAt: getCurrentDate(),
+        parentId: null,
+        breadcrumb: "3.3",
+        count: {
+          folder: "0",
+        },
+        children: [],
+      };
+
       const newData = [...info];
-      const currentNode = currentFolderNodeRef.current;
-      const newNode = currentNode;
-      console.log(newData);
-      console.log(currentNode);
+      const currentNode = currentFolderNodeRef.current; // parentId
 
       const newCurrentNode = traverseTree(newData, currentNode);
       console.log(newCurrentNode);
+      // update new node's parent Id
       newObj.parentId = currentNode;
-      // newObj.parentId = currentNode.id;
+      // update parent node
       newCurrentNode.count.folder = "1";
-      // if (!newCurrentNode.children) {
-      //   newCurrentNode.children = [];
-      // }
       newCurrentNode.children.push(newObj);
+      newCurrentNode.updatedAt = getCurrentDate();
       setInfo(newData);
     };
     const traverseTree = (nodes, targetNodeId) => {
@@ -100,6 +86,61 @@ const Custom2 = () => {
           }
         }
       }
+    };
+    const insertFolder = () => {
+      const parentId = currentFolderNodeRef.current;
+
+      const newObj = {
+        id: uuidv4(),
+        name: "new folder",
+        createdAt: getCurrentDate(),
+        updatedAt: getCurrentDate(),
+        parentId: null,
+        breadcrumb: "3.3",
+        count: {
+          folder: "0",
+        },
+        children: [],
+      };
+
+      setInfo(prevFolders => {
+        if (prevFolders) {
+          if (parentId) {
+            // update parent folder
+            prevFolders.map(folder => {
+              if (folder.id === parentId) {
+                return {
+                  ...folder,
+                  count: { folder: folder.count.folder + 1 },
+                  children: [...(folder.children || []), newObj],
+                };
+              } else {
+                return folder;
+              }
+            });
+          } else {
+            return [...prevFolders, newObj];
+          }
+        } else {
+          return [newObj];
+        }
+      });
+    };
+    const getCurrentDate = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      // format the date in YYYY-MM-DDThh:mm:ssTZD format
+      const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day
+        .toString()
+        .padStart(2, "0")}T${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}Z`;
+      return formattedDate;
     };
     return {
       addFolder,
@@ -180,9 +221,13 @@ const Custom2 = () => {
         })}
         onMouseDown={handleMouseDown}
         ref={ref}
-        style={{ flexDirection: "row-reverse" }}
+        style={{
+          display: "flex",
+          flexDirection: folders !== "0" ? "row-reverse" : "none",
+          justifyContent: "space-between",
+          padding: "8px 5px",
+        }}
       >
-        {/* {console.log(folders === "0")} */}
         {/* //> show icon based on folders */}
         {folders !== "0" && (
           <div
@@ -195,13 +240,16 @@ const Custom2 = () => {
             {expanded ? <ExpandMoreIcon /> : <ChevronRightIcon />}
           </div>
         )}
-        <Typography
-          onClick={handleSelectionClick}
-          component="div"
-          className={classes.label}
-        >
-          {`${label} + ${nodeId}`}
-        </Typography>
+        <div style={{ display: "flex" }}>
+          <FolderOutlinedIcon sx={{ marginRight: "8px" }} />
+          <Typography
+            onClick={handleSelectionClick}
+            component="div"
+            className={classes.label}
+          >
+            {`${label} + ${nodeId}`}
+          </Typography>
+        </div>
       </div>
     );
   });
