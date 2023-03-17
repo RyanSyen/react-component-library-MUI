@@ -8,7 +8,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { usePagination } from "@mui/material";
 
-import Pagination from "../../components/Pagination/Pagination";
+import Pagination from "../../components/Pagination/index";
 
 const data = require("./MOCK_DATA.json");
 

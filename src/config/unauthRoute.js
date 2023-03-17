@@ -1,3 +1,4 @@
+import FeedbackView from "../pages/Feedback/Feedback";
 import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
@@ -28,6 +29,12 @@ const unauthenticatedRoute = Object.freeze([
     name: "PaginationView",
     path: "/paginationview",
     element: <PaginationView />,
+  },
+  {
+    id: "FeedbackView",
+    name: "FeedbackView",
+    path: "/feedbackview",
+    element: <FeedbackView />,
   },
 ]);
 
