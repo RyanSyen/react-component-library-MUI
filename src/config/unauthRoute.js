@@ -1,3 +1,4 @@
+import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
 import SortableDND from "../pages/Sortable/Sortable";
@@ -21,6 +22,12 @@ const unauthenticatedRoute = Object.freeze([
     name: "TreeView",
     path: "/treeview",
     element: <TreeView />,
+  },
+  {
+    id: "PaginationView",
+    name: "PaginationView",
+    path: "/paginationview",
+    element: <PaginationView />,
   },
 ]);
 
