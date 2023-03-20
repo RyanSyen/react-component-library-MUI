@@ -8,6 +8,7 @@ npm i react-spring @mui/material @emotion/react @emotion/styled @mui/styled-engi
 npm i @hello-pangea/dnd -> drag and drop library
 npm i  @mui/lab @mui/material -> mui tree view
 npm i react-useanimations -> easy to use library for microinteractions 
+npm i axios -> mimic real-life application
 
 Dev Dependencies
 ----------------

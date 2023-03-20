@@ -1,90 +1,105 @@
 {
-    "env": {
-      "browser": true,
-      "es2021": true,
-      "jest": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-      "airbnb",
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:prettier/recommended"
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier", "simple-import-sort", "jest"],
+  "rules": {
+    "allowElseIf": "off",
+    "consistent-return": "off",
+    // "import/no-extraneous-dependencies": [
+    //   "error",
+    //   {
+    //     "devDependencies": false,
+    //     "optionalDependencies": false,
+    //     "peerDependencies": false,
+    //     "packageDir": path.join(__dirname, 'some-dir')
+    //   }
+    // ],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": "arrow-function" }
     ],
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 12,
-      "sourceType": "module"
-    },
-    "plugins": ["react", "prettier", "simple-import-sort"],
-    "rules": {
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
-      "react/no-unknown-property": ["error", { "ignore": ["css"] }],
-      "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
-      "no-nested-ternary":"off",
-      "react/jsx-props-no-spreading": "off",
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-      "linebreak-style": [0, "error", "windows"],
-      "react/react-in-jsx-scope": "off",
-      "quote-props": ["error", "as-needed"],
-      "max-len": 0,
-      "operator-linebreak": [
-        2,
-        "after",
-        { "overrides": { "?": "before", ":": "before" } }
-      ],
-      "space-before-function-paren": [
-        "error",
-        {
-          "anonymous": "always",
-          "named": "never",
-          "asyncArrow": "always"
-        }
-      ],
-      "indent": ["error", 2, { "MemberExpression": 1, "SwitchCase": 1 }],
-      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-      "prettier/prettier": [
-        "error",
-        {
-          "semi": true,
-          "trailingComma": "all",
-          "singleQuote": false,
-          "printWidth": 80,
-          "tabWidth": 2,
-          "arrowParens": "avoid",
-          "endOfLine":"auto"
-        }
-        
-      ]
-    },
-    "overrides": [
-      // override "simple-import-sort" config
+    "no-nested-ternary": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "linebreak-style": [0, "error", "windows"],
+    "react/react-in-jsx-scope": "off",
+    "quote-props": ["error", "as-needed"],
+    "max-len": 0,
+    "operator-linebreak": [
+      2,
+      "after",
+      { "overrides": { "?": "before", ":": "before" } }
+    ],
+    "space-before-function-paren": [
+      "error",
       {
-        "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-        "rules": {
-          "simple-import-sort/imports": [
-            "error",
-            {
-              "groups": [
-                // Packages `react` related packages come first.
-                ["^react", "^@?\\w"],
-                // Internal packages.
-                ["^(@|components)(/.*|$)"],
-                // Side effect imports.
-                ["^\\u0000"],
-                // Parent imports. Put `..` last.
-                ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-                // Other relative imports. Put same-folder imports and `.` last.
-                ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-                // Style imports.
-                ["^.+\\.?(css)$"]
-              ]
-            }
-          ]
-        }
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "indent": ["error", 2, { "MemberExpression": 1, "SwitchCase": 1 }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": false }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true,
+        "trailingComma": "all",
+        "singleQuote": false,
+        "printWidth": 80,
+        "tabWidth": 2,
+        "arrowParens": "avoid",
+        "endOfLine": "auto"
       }
     ]
-  }
-  
+  },
+  "overrides": [
+    // override "simple-import-sort" config
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              // Packages `react` related packages come first.
+              ["^react", "^@?\\w"],
+              // Internal packages.
+              ["^(@|components)(/.*|$)"],
+              // Side effect imports.
+              ["^\\u0000"],
+              // Parent imports. Put `..` last.
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              // Style imports.
+              ["^.+\\.?(css)$"]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -21,6 +21,8 @@ import Typography from "@mui/material/Typography";
 import Basic from "./Basic";
 import Custom from "./Custom";
 import Custom2 from "./Custom_v2";
+import Custom3 from "./Custom_v3";
+import Custom4 from "./Custom_v4";
 import CustomDocs from "./CustomDocs";
 import Folders from "./Folder";
 import RichObjectTreeView from "./RichObj";
@@ -30,47 +32,9 @@ const LeftNavBar = () => {
   const drawerWidth = 240;
 
   const [currentTreeView, setCurrentTreeView] = useState("basic");
-  // const contentLoaded = useRef(false);
-
-  // useEffect(() => {
-  //   if (contentLoaded.current) return;
-  //   setCurrentTreeView("basic");
-  //   contentLoaded.current = true;
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(currentTreeView);
-  // }, [currentTreeView]);
-
-  //   const TypesView = type => {
-  //     switch (type) {
-  //       case "basic":
-  //         setCurrentTreeView("basic");
-  //         return <Basic />;
-  //       case "richobj":
-  //         setCurrentTreeView("rich obj");
-  //         return <RichObjectTreeView />;
-  //       default:
-  //         console.error("invalid tree type");
-  //         return <Typography>Test</Typography>;
-  //     }
-
-  //     return {};
-  //   };
 
   const onclickHandler = type => {
-    // switch (type) {
-    //   case "basic":
-    //     setCurrentTreeView("basic");
-    //     return <Basic />;
-    //   case "richobj":
-    //     setCurrentTreeView("rich obj");
-    //     return <RichObjectTreeView />;
-    //   default:
-    //     console.error("invalid tree type");
-    // }
     setCurrentTreeView(type);
-    // console.log(type);
   };
 
   return (
@@ -142,11 +106,18 @@ const LeftNavBar = () => {
               <ListItemText primary="custom_v2" />
             </ListItemButton>
           </ListItem>
-          {/* <ListItem>
-            <ListItemButton onClick={() => onclickHandler("folders")}>
-              <ListItemText primary="folders" />
+          <ListItem>
+            <ListItemButton onClick={() => onclickHandler("custom_v3")}>
+              <ListItemText primary="custom_v3" />
             </ListItemButton>
-          </ListItem> */}
+          </ListItem>
+          <ListItem>
+            <ListItemButton
+              onClick={() => onclickHandler("custom_v4 with useReducer")}
+            >
+              <ListItemText primary="custom_v4 with useReducer" />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
         {/* <List>
@@ -174,6 +145,8 @@ const LeftNavBar = () => {
         {currentTreeView === "custom-docs" && <CustomDocs />}
         {currentTreeView === "custom_v2" && <Custom2 />}
         {currentTreeView === "folders" && <Folders />}
+        {currentTreeView === "custom_v3" && <Custom3 />}
+        {currentTreeView === "custom_v4 with useReducer" && <Custom4 />}
       </Box>
     </Box>
   );
