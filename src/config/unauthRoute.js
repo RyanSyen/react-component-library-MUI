@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+import { lazy, Suspense } from "react";
+
 import FeedbackView from "../pages/Feedback/Feedback";
 import ResponsiveGrid from "../pages/Grid/index";
 import { BackToTop, NavbarView } from "../pages/Navbar";
@@ -7,6 +9,8 @@ import Placeholder from "../pages/Placeholder";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
 import SortableDND from "../pages/Sortable/Sortable";
 import TreeView from "../pages/Treeview/Treeview";
+
+const MyComponent = lazy(() => import("../pages/Lazy/MyComponent"));
 
 const unauthenticatedRoute = Object.freeze([
   {
@@ -50,6 +54,16 @@ const unauthenticatedRoute = Object.freeze([
     name: "ResponsiveGrid",
     path: "/responsivegrid",
     element: <ResponsiveGrid />,
+  },
+  {
+    id: "Lazy",
+    name: "Lazy",
+    path: "/lazy",
+    element: (
+      <Suspense fallback={<div>loading...</div>}>
+        <MyComponent />
+      </Suspense>
+    ),
   },
 ]);
 

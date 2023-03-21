@@ -16,13 +16,14 @@
 /* eslint-disable react/prop-types */
 
 import React, {
+  forwardRef,
   useCallback,
   useEffect,
   useReducer,
   useRef,
   useState,
 } from "react";
-import { ControlPointSharp } from "@mui/icons-material";
+import { ControlPointSharp, Person } from "@mui/icons-material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
@@ -39,18 +40,19 @@ import { getFolders, getRootFolders } from "../../hooks/useFetchData";
 import TreeViewHelper from "./helper";
 
 const Custom4 = () => {
-  const [info, setInfo] = useState([]);
-  const [expandedNodes, setExpandedNodes] = useState([]);
-  const nodesFetchedRef = useRef(false);
-  const currentFolderNodeRef = useRef({});
+  //   const [expandedNodes, setExpandedNodes] = useState([]);
+
   const initFetchedRef = useRef(false);
-  const dataFetchedRef = useRef(false);
+  const nodesFetchedRef = useRef(false);
+  const childFetchedRef = useRef(false);
+  const currentFolderNodeRef = useRef({});
 
   const initialState = {
     rootFoldersJson: [],
     childFolderJson: [],
     rootFoldersTree: [],
     childFolderTreeRef: [],
+    expandedNodes: [],
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -64,12 +66,39 @@ const Custom4 = () => {
       case "updateChildFolderJson":
         return {
           ...state,
-          childFolderJson: [...state.childFolderJson, ...action.payload],
+          childFolderJson: [...action.payload],
+          //   childFolderJson: [...state.childFolderJson, ...action.payload],
         };
       case "updateChildFolderTreeRef":
         return {
           ...state,
           childFolderTreeRef: [...state.childFolderTreeRef, ...action.payload],
+        };
+      case "updateToggleableNodes":
+        // eslint-disable-next-line no-case-declarations
+        const id = action.payload;
+
+        if (state.expandedNodes.includes(id)) {
+          // collapse
+          const collapse = state.expandedNodes.filter(
+            (expandedId) => expandedId !== id
+          );
+          return {
+            ...state,
+            expandedNodes: [...collapse],
+          };
+        } else {
+          // expand
+          return {
+            ...state,
+            expandedNodes: [...state.expandedNodes, id],
+          };
+        }
+
+      case "updateExpandOnlyNodes":
+        return {
+          ...state,
+          expandedNodes: [...state.expandedNodes, action.payload],
         };
       default:
         return state;
@@ -94,24 +123,30 @@ const Custom4 = () => {
     }
   }, [state.rootFoldersJson]);
 
-  // > update tree after fetch child
   useEffect(() => {
-    // update reference to pulled child folders
-    dispatch({
-      type: "updateChildFolderTreeRef",
-      payload: state.childFolderJson,
-    });
-    //! combine root and child folder json
-    const updatedJson = [...state.rootFoldersJson, ...state.childFolderJson];
-    // const updatedTree = state.childFolderJson.map(node => {
-    //   TreeViewHelper.insertNode(node);
-    // });
-    // console.log(updatedTree);
+    // checking for initial render to prevent multiple rendering
+    if (childFetchedRef.current) return;
 
-    // convert updated json to tree
-    const folderTree = TreeViewHelper.tree2(updatedJson);
-    // update tree and render UI
-    dispatch({ type: "updateRootFoldersTree", payload: folderTree });
+    if (state.childFolderJson.length > 0) {
+      // update reference to pulled child folders
+      dispatch({
+        type: "updateChildFolderTreeRef",
+        payload: state.childFolderJson,
+      });
+
+      // convert updated json to tree
+      //! combine root and child folder json method (**slower)
+      // const updatedJson = [...state.rootFoldersJson, ...state.childFolderJson];
+      // const updatedTree = TreeViewHelper.tree2(updatedJson);
+
+      //* insert new child nodes method (**faster)
+      const updatedTree = TreeViewHelper.insertNode(state.childFolderJson);
+      console.log(updatedTree);
+      // update tree and render UI
+      dispatch({ type: "updateRootFoldersTree", payload: updatedTree });
+    }
+
+    childFetchedRef.current = true;
   }, [state.childFolderJson]);
 
   const actions = (() => {
@@ -119,18 +154,19 @@ const Custom4 = () => {
       try {
         const { data } = await axios.get("https://localhost:3000/data.json");
         const res = data;
-        const rootFolders = res.filter(item => item.parentId === null);
+        const rootFolders = res.filter((item) => item.parentId === null);
         dispatch({ type: "updateRootFoldersJson", payload: rootFolders });
       } catch (err) {
         console.log(err);
       }
     };
-    const fetchFolders = async parentId => {
+    const fetchFolders = async (parentId) => {
       try {
         const { data } = await axios.get("https://localhost:3000/data.json");
         const res = data;
-        const childFolders = res.filter(item => item.parentId === parentId);
+        const childFolders = res.filter((item) => item.parentId === parentId);
         dispatch({ type: "updateChildFolderJson", payload: childFolders });
+        childFetchedRef.current = false;
       } catch (err) {
         console.log(err);
       }
@@ -152,7 +188,8 @@ const Custom4 = () => {
       console.log(state.rootFoldersTree);
       const newData = [...state.rootFoldersTree];
       const currentNode = currentFolderNodeRef.current; // parentId
-
+      //   const test = TreeViewHelper.test();
+      //   console.log(test);
       const newCurrentNode = traverseTree(newData, currentNode);
       console.log(newCurrentNode);
       //   for (const child of children) {
@@ -170,11 +207,12 @@ const Custom4 = () => {
       newCurrentNode.children.push(newObj);
       newCurrentNode.updatedAt = getCurrentDate();
       //   setInfo(newData);
-      dispatch({ type: "updateRootFoldersJson", payload: newData });
+      //   dispatch({ type: "updateRootFoldersJson", payload: newData });
       // expand the parent folder
-      if (!expandedNodes.includes(currentNode)) {
-        setExpandedNodes([...expandedNodes, currentNode]);
-      }
+      dispatch({ type: "updateExpandOnlyNodes", payload: currentNode });
+      //   if (!expandedNodes.includes(currentNode)) {
+      //     setExpandedNodes([...expandedNodes, currentNode]);
+      //   }
     };
     const traverseTree = (nodes, targetNodeId) => {
       for (const node of nodes) {
@@ -193,45 +231,6 @@ const Custom4 = () => {
         }
       }
     };
-    const insertFolder = () => {
-      const parentId = currentFolderNodeRef.current;
-
-      const newObj = {
-        id: uuidv4(),
-        name: "new folder",
-        createdAt: getCurrentDate(),
-        updatedAt: getCurrentDate(),
-        parentId: null,
-        breadcrumb: "3.3",
-        count: {
-          folder: "0",
-        },
-        children: [],
-      };
-
-      setInfo(prevFolders => {
-        if (prevFolders) {
-          if (parentId) {
-            // update parent folder
-            prevFolders.map(folder => {
-              if (folder.id === parentId) {
-                return {
-                  ...folder,
-                  count: { folder: folder.count.folder + 1 },
-                  children: [...(folder.children || []), newObj],
-                };
-              } else {
-                return folder;
-              }
-            });
-          } else {
-            return [...prevFolders, newObj];
-          }
-        } else {
-          return [newObj];
-        }
-      });
-    };
     const getCurrentDate = () => {
       const date = new Date();
       const year = date.getFullYear();
@@ -248,19 +247,26 @@ const Custom4 = () => {
         .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}Z`;
       return formattedDate;
     };
+    const resetGlobal = () => {
+      TreeViewHelper.global = {};
+      console.log(TreeViewHelper.global);
+    };
     return {
       fetchFolders,
       fetchRootFolders,
       addFolder,
+      resetGlobal,
     };
   })();
 
-  // React.forwardRef is used to create ref to the DOM node
-  const CustomContent = React.forwardRef(function CustomContent(props, ref) {
-    // classes and className are styles passed down from the parent TreeView
-    // nodeId is used to manage the item state
-    // icon, expansionIcon, displayIcon are props passed from parent TreeView to specify the icons that are used to represent the item's state
 
+  // CustomContent is a custom tree item, high order component that accepts a ref prop and forwards it to the underlying 'div' below
+  // React.forwardRef is used to create ref to the DOM node
+  const CustomContent = forwardRef(function CustomContent(props, ref) {
+
+    // classes and className are styles passed down from the parent TreeView
+    // icon, expansionIcon, displayIcon are props passed from parent TreeView to specify the icons that are used to represent the item's state
+    // console.log(ref);
     //* In order to pass custom props, use ContentProps as it will be merged with the original TreeItemContentProps
     // https://stackoverflow.com/questions/69481071/material-ui-how-to-pass-custom-props-to-a-custom-treeitem#:~:text=Use%20ContentProps%20props%2C%20it%20will%20be%20merged%20with%20the%20original%20TreeItemContentProps
 
@@ -288,33 +294,35 @@ const Custom4 = () => {
     } = useTreeItem(nodeId);
 
     // selects appropriate icon based on `iconProp`, `expansionIcon`, and `displayIcon` props
-    const icon = iconProp || expansionIcon || displayIcon;
+    // const icon = iconProp || expansionIcon || displayIcon;
 
     // called when user clicks on TreeItem and prevents the item from being selected by calling the 'preventSelection()' function
-    const handleMouseDown = event => {
+    const handleMouseDown = (event) => {
       preventSelection(event);
     };
 
     // called when user clicks on the expansion icon and toggles the item's expansion state by calling the 'handleExpansion()' function
-    const handleExpansionClick = event => {
+    const handleExpansionClick = (event) => {
       // > if children exists in ref, then don't fetch data
       const targetNode = state.childFolderTreeRef.find(
-        el => el.parentId === nodeId,
+        (el) => el.parentId === nodeId
       );
       if (!targetNode) {
         actions.fetchFolders(nodeId);
       }
-      if (expandedNodes.includes(nodeId)) {
-        setExpandedNodes(expandedNodes.filter(id => id !== nodeId));
-        // console.log(expandedNodes);
-      } else {
-        setExpandedNodes([...expandedNodes, nodeId]);
-      }
+      dispatch({ type: "updateToggleableNodes", payload: nodeId });
+      //   if (expandedNodes.includes(nodeId)) {
+      //     setExpandedNodes(expandedNodes.filter(id => id !== nodeId));
+      //     dispatch({ type: "updateExpandedNodes", payload: nodeId });
+      //     // console.log(expandedNodes);
+      //   } else {
+      //     setExpandedNodes([...expandedNodes, nodeId]);
+      //   }
       handleExpansion(event);
     };
 
     // called when user clicks on the TreeItem label and toggles the item's selection state by calling 'handleSelection()' function
-    const handleSelectionClick = event => {
+    const handleSelectionClick = (event) => {
       console.log(nodeId);
       currentFolderNodeRef.current = nodeId;
       handleSelection(event);
@@ -362,11 +370,11 @@ const Custom4 = () => {
     );
   });
 
-  const CustomTreeItem = props => {
+  const CustomTreeItem = (props) => {
     return <TreeItem ContentComponent={CustomContent} {...props} />;
   };
 
-  const renderTreeItems = data => (
+  const renderTreeItems = (data) => (
     //* CustomTreeItem props api
     // https://mui.com/material-ui/api/tree-item/
     <CustomTreeItem
@@ -378,7 +386,7 @@ const Custom4 = () => {
       }}
     >
       {Array.isArray(data.children)
-        ? data.children.map(nodes => [renderTreeItems(nodes)])
+        ? data.children.map((nodes) => [renderTreeItems(nodes)])
         : null}
     </CustomTreeItem>
   );
@@ -399,15 +407,29 @@ const Custom4 = () => {
       >
         Add New
       </Button>
+      {/* <Button
+        className="XyanButton"
+        onClick={actions.resetGlobal}
+        variant="contained"
+        sx={{
+          fontSize: "14px",
+          fontWeight: 600,
+          letterSpacing: "0.46px",
+          borderRadius: "20px",
+          marginBottom: "25px",
+        }}
+      >
+        Reset Global Tree
+      </Button> */}
       {state.rootFoldersTree.length > 0 ? (
         <TreeView
           aria-label="icon expansion"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
-          expanded={expandedNodes}
+          expanded={state.expandedNodes}
           sx={{ height: 500, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
         >
-          {state.rootFoldersTree.map(item => {
+          {state.rootFoldersTree.map((item) => {
             return renderTreeItems(item);
           })}
         </TreeView>

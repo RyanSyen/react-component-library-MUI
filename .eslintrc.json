@@ -8,7 +8,8 @@
     "airbnb",
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "react-app"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -17,10 +18,12 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "simple-import-sort", "jest"],
+  "plugins": ["react", "prettier", "simple-import-sort", "jest", "react-hooks"],
   "rules": {
     "allowElseIf": "off",
     "consistent-return": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
     // "import/no-extraneous-dependencies": [
     //   "error",
     //   {

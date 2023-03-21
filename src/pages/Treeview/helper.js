@@ -55,10 +55,8 @@ const testJson = [
 ];
 
 const treeView = () => {
-  let GTree = {};
-  const globalTree = tree => {
-    GTree = tree;
-    return GTree;
+  const global = {
+    tree: {},
   };
 
   const convertJsonToTree = () => {
@@ -98,8 +96,11 @@ const treeView = () => {
   };
 
   const convertJsonToTree2 = info => {
+    const start = window.performance.now();
     const tree = {};
     const root = [];
+
+    console.log(info);
 
     if (info.length > 0) {
       // Create a node for each item
@@ -117,8 +118,9 @@ const treeView = () => {
         };
       });
 
-      globalTree(tree);
-
+      console.log(tree);
+      global.tree = tree;
+      console.log(global.tree);
       // Link each node to its parent
       Object.keys(tree).forEach(nodeId => {
         const node = tree[nodeId];
@@ -131,91 +133,75 @@ const treeView = () => {
         }
       });
     }
-
+    const end = window.performance.now();
+    const dur = end - start;
+    console.log(dur);
     return root;
   };
 
-  // const updateNode = (nodeId, updateFn) => {
-  //   const update = node => {
-  //     if (node.id === nodeId) {
-  //       updateFn(node);
-  //     }
-  //     node.children.forEach(child => updateNode(child));
-  //   };
+  const insertNode = newNodes => {
+    const start = window.performance.now();
+    const { tree } = global;
+    const root = [];
 
-  //   tree.forEach(node => updateNode(node));
-  // };
+    if (tree.length !== null) {
+      // add new node to tree using the id as key
+      newNodes.forEach(newNode => {
+        tree[newNode.id] = {
+          id: newNode.id,
+          name: newNode.name,
+          parentId: newNode.parentId,
+          createdAt: newNode.createdAt,
+          updatedAt: newNode.updatedAt,
+          children: [],
+          count: {
+            folder: newNode.count.folders,
+          },
+        };
+      });
 
-  // const insertNode = newNode => {
-  //   const tree = {};
-  //   const root = [];
-  //   const oldTree = globalTree();
-  //   console.log(GTree);
+      Object.keys(tree).forEach(nodeId => {
+        const node = tree[nodeId];
+        const { parentId, id } = node;
 
-  //   if (oldTree.length > 0) {
-  //     oldTree.forEach(item => {
-  //       tree[item.id] = {
-  //         id: item.id,
-  //         name: item.name,
-  //         parentId: item.parentId,
-  //         createdAt: item.createdAt,
-  //         updatedAt: item.updatedAt,
-  //         children: [],
-  //         count: {
-  //           folder: item.count.folders,
-  //         },
-  //       };
-  //     });
+        if (parentId) {
+          // check if children already exist
+          // const childExist = tree[parentId].children.some(
+          //   child => JSON.stringify(child) === JSON.stringify(node),
+          // );
+          const childExist = tree[parentId].children.find(
+            child => child.id === id,
+          );
+          // if child does not exist, push to children array
+          if (!childExist) {
+            tree[parentId].children.push(node);
+          }
+        } else {
+          // the 3 root nodes will be pushed to root
+          root.push(node);
+        }
+      });
 
-  //     tree[newNode.id] = {
-  //       id: newNode.id,
-  //       name: newNode.name,
-  //       parentId: newNode.parentId,
-  //       createdAt: newNode.createdAt,
-  //       updatedAt: newNode.updatedAt,
-  //       children: [],
-  //       count: {
-  //         folder: newNode.count.folders,
-  //       },
-  //     };
-
-  //     if (newNode.parentId) {
-  //       tree[newNode.parentId].children.push(tree[newNode.id]);
-  //     } else {
-  //       const nodesWithoutParentId = Object.values(tree).filter(
-  //         node => !node.parentId,
-  //       );
-  //       if (nodesWithoutParentId.length > 0) {
-  //         nodesWithoutParentId[0].children.push(tree[newNode.id]);
-  //       } else {
-  //         root.push(tree[newNode.id]);
-  //       }
-  //     }
-  //   } else {
-  //     tree[newNode.id] = {
-  //       id: newNode.id,
-  //       name: newNode.name,
-  //       parentId: newNode.parentId,
-  //       createdAt: newNode.createdAt,
-  //       updatedAt: newNode.updatedAt,
-  //       children: [],
-  //       count: {
-  //         folder: newNode.count.folders,
-  //       },
-  //     };
-  //     root.push(tree[newNode.id]);
-  //   }
-  //   return root;
-  // };
+      global.tree = tree;
+    } else {
+      convertJsonToTree2(newNodes);
+    }
+    console.log(root);
+    const end = window.performance.now();
+    const dur = end - start;
+    console.log(dur);
+    return root;
+  };
 
   const tree = convertJsonToTree();
   const tree2 = info => convertJsonToTree2(info);
 
   return {
+    global,
     tree,
     tree2,
     // updateNode,
-    // insertNode,
+    insertNode,
   };
 };
 
