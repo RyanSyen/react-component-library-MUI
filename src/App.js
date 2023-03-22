@@ -26,6 +26,10 @@ const UnauthenticatedApp = () => {
       />
       <Route path="/feedbackview" element={<Navigate to="/feedbackview" />} />
       <Route path="/navbarview" element={<Navigate to="/navbarview" />} />
+      <Route
+        path="/refactored-tree-view"
+        element={<Navigate to="/refactored-tree-view" />}
+      />
     </Routes>
   );
 };

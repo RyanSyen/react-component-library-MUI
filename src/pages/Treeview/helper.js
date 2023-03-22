@@ -59,41 +59,41 @@ const treeView = () => {
     tree: {},
   };
 
-  const convertJsonToTree = () => {
-    const tree = {};
-    const root = [];
+  // const convertJsonToTree = () => {
+  //   const tree = {};
+  //   const root = [];
 
-    if (data.length > 0) {
-      // Create a node for each item
-      data.forEach(item => {
-        tree[item.id] = {
-          id: item.id,
-          name: item.name,
-          parentId: item.parentId,
-          createdAt: item.createdAt,
-          updatedAt: item.updatedAt,
-          children: [],
-          count: {
-            folder: item.count.folders,
-          },
-        };
-      });
+  //   if (data.length > 0) {
+  //     // Create a node for each item
+  //     data.forEach(item => {
+  //       tree[item.id] = {
+  //         id: item.id,
+  //         name: item.name,
+  //         parentId: item.parentId,
+  //         createdAt: item.createdAt,
+  //         updatedAt: item.updatedAt,
+  //         children: [],
+  //         count: {
+  //           folder: item.count.folders,
+  //         },
+  //       };
+  //     });
 
-      // Link each node to its parent
-      Object.keys(tree).forEach(nodeId => {
-        const node = tree[nodeId];
-        const { parentId } = node;
+  //     // Link each node to its parent
+  //     Object.keys(tree).forEach(nodeId => {
+  //       const node = tree[nodeId];
+  //       const { parentId } = node;
 
-        if (parentId) {
-          tree[parentId].children.push(node);
-        } else {
-          root.push(node);
-        }
-      });
-    }
+  //       if (parentId) {
+  //         tree[parentId].children.push(node);
+  //       } else {
+  //         root.push(node);
+  //       }
+  //     });
+  //   }
 
-    return root;
-  };
+  //   return root;
+  // };
 
   const convertJsonToTree2 = info => {
     const start = window.performance.now();
@@ -144,6 +144,7 @@ const treeView = () => {
     const { tree } = global;
     const root = [];
 
+    console.log(tree);
     if (tree.length !== null) {
       // add new node to tree using the id as key
       newNodes.forEach(newNode => {
@@ -193,12 +194,12 @@ const treeView = () => {
     return root;
   };
 
-  const tree = convertJsonToTree();
+  // const tree = convertJsonToTree();
   const tree2 = info => convertJsonToTree2(info);
 
   return {
     global,
-    tree,
+    // tree,
     tree2,
     // updateNode,
     insertNode,

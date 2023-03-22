@@ -6,6 +6,7 @@ import ResponsiveGrid from "../pages/Grid/index";
 import { BackToTop, NavbarView } from "../pages/Navbar";
 import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
+import { RefactoredTreeView } from "../pages/Refactored_Treeview/index";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
 import SortableDND from "../pages/Sortable/Sortable";
 import TreeView from "../pages/Treeview/Treeview";
@@ -64,6 +65,12 @@ const unauthenticatedRoute = Object.freeze([
         <MyComponent />
       </Suspense>
     ),
+  },
+  {
+    id: "RefactoredTreeView",
+    name: "RefactoredTreeView",
+    path: "/refactored-tree-view",
+    element: <RefactoredTreeView />,
   },
 ]);
 

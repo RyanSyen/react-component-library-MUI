@@ -20,6 +20,8 @@
   },
   "plugins": ["react", "prettier", "simple-import-sort", "jest", "react-hooks"],
   "rules": {
+    "no-shadow": "off",
+    "react/prop-types": "off",
     "allowElseIf": "off",
     "consistent-return": "off",
     "react-hooks/rules-of-hooks": "error",
