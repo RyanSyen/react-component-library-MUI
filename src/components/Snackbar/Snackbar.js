@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable import/no-extraneous-dependencies */
 import { forwardRef } from "react";
 import MuiAlert from "@mui/material/Alert";
 import MuiSnackbar from "@mui/material/Snackbar";
@@ -9,11 +11,28 @@ const CustomizedSnackbar = styled(props => <MuiSnackbar {...props} />)(
     "& .MuiPaper-root": {
       border: "none",
       borderRadius: "50px",
-      color: props.type === "success" ? "#2C965D" : "#E24747",
-      background: props.type === "success" ? "#CDF7E0" : "#FFD4D3",
+      color:
+        props.type === "success"
+          ? "#2C965D"
+          : props.type === "error"
+          ? "#E24747"
+          : "#B59410",
+      background:
+        props.type === "success"
+          ? "#CDF7E0"
+          : props.type === "error"
+          ? "#FFD4D3"
+          : "#FDFD96",
+      // color: props.type === "success" ? "#2C965D" : "#E24747",
+      // background: props.type === "success" ? "#CDF7E0" : "#FFD4D3",
     },
     "& .MuiAlert-icon": {
-      color: props.type === "success" ? "#2C965D" : "#E24747",
+      color:
+        props.type === "success"
+          ? "#2C965D"
+          : props.type === "error"
+          ? "#E24747"
+          : "#B59410",
     },
   }),
 );
@@ -34,6 +53,7 @@ const Snackbar = ({ message, isOpen, type, onClose }) => {
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       type={type}
     >
+      {/* https://mui.com/material-ui/react-alert/ */}
       <Alert
         severity={type}
         sx={{ width: "auto", bottom: 0, position: "absolute" }}

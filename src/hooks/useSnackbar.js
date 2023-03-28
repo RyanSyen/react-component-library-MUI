@@ -18,16 +18,26 @@ const useSnackbar = () => {
   }, [setSnackbar]);
 
   const open = useCallback(
-    (message, isError) => {
+    (message, type) => {
       setSnackbar(prevState => {
         return {
           ...prevState,
           isOpen: true,
           message,
-          type: isError ? "error" : "success",
+          type,
         };
       });
     },
+    // (message, isError) => {
+    //   setSnackbar(prevState => {
+    //     return {
+    //       ...prevState,
+    //       isOpen: true,
+    //       message,
+    //       type: isError ? "error" : "success",
+    //     };
+    //   });
+    // },
     [setSnackbar],
   );
 

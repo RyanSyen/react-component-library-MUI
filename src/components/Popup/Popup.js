@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,

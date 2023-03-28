@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Box, Drawer } from "@mui/material";
 import PropTypes from "prop-types";

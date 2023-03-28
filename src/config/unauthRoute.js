@@ -7,6 +7,8 @@ import { BackToTop, NavbarView } from "../pages/Navbar";
 import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
 import { RefactoredTreeView } from "../pages/Refactored_Treeview/index";
+import TreeViewR2 from "../pages/Refactored_v2";
+import TreeViewR3 from "../pages/Refactored_v3/Treeview";
 // import { DefaultSortable, Sortable, SortableDND } from "../pages/Sortable";
 import SortableDND from "../pages/Sortable/Sortable";
 import TreeView from "../pages/Treeview/Treeview";
@@ -71,6 +73,18 @@ const unauthenticatedRoute = Object.freeze([
     name: "RefactoredTreeView",
     path: "/refactored-tree-view",
     element: <RefactoredTreeView />,
+  },
+  {
+    id: "TreeViewR2",
+    name: "TreeViewR2",
+    path: "/treeviewR2",
+    element: <TreeViewR2 />,
+  },
+  {
+    id: "TreeViewR3",
+    name: "TreeViewR3",
+    path: "/treeviewR3",
+    element: <TreeViewR3 />,
   },
 ]);
 

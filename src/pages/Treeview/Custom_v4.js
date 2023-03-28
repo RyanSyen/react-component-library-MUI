@@ -259,11 +259,9 @@ const Custom4 = () => {
     };
   })();
 
-
   // CustomContent is a custom tree item, high order component that accepts a ref prop and forwards it to the underlying 'div' below
   // React.forwardRef is used to create ref to the DOM node
   const CustomContent = forwardRef(function CustomContent(props, ref) {
-
     // classes and className are styles passed down from the parent TreeView
     // icon, expansionIcon, displayIcon are props passed from parent TreeView to specify the icons that are used to represent the item's state
     // console.log(ref);
