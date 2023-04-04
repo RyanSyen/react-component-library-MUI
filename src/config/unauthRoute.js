@@ -6,6 +6,7 @@ import ResponsiveGrid from "../pages/Grid/index";
 import { BackToTop, NavbarView } from "../pages/Navbar";
 import PaginationView from "../pages/Pagination";
 import Placeholder from "../pages/Placeholder";
+import PushNotification from "../pages/PushNotification/PushNotification";
 import { RefactoredTreeView } from "../pages/Refactored_Treeview/index";
 import TreeViewR2 from "../pages/Refactored_v2";
 import TreeViewR3 from "../pages/Refactored_v3/Treeview";
@@ -85,6 +86,12 @@ const unauthenticatedRoute = Object.freeze([
     name: "TreeViewR3",
     path: "/treeviewR3",
     element: <TreeViewR3 />,
+  },
+  {
+    id: "PushNotification",
+    name: "PushNotification",
+    path: "/notification",
+    element: <PushNotification />,
   },
 ]);
 

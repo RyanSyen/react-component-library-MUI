@@ -1,3 +1,6 @@
+/* eslint-disable block-scoped-var */
+/* eslint-disable no-var */
+/* eslint-disable vars-on-top */
 /* eslint-disable prettier/prettier */
 export function convertJsonToTree(json) {
   const root = [];
@@ -75,16 +78,23 @@ export function traverseTree(tree, currentTreeId){
   for (const node of tree) {
     if (node.id === currentTreeId) {
       console.log(node);
-      return node;
+      // return node;
     }
+    const test = "test";
+    var test1 = "tes1";
     if (node.children && node.children.length > 0) {
       // recursively traverse all children of the current node
       console.log(node.children);
       const result = traverseTree(node.children, currentTreeId);
       // to prevent function from continuing to execute after return statement, add return statement before recursive call. It will stop executing when the result / target node is found
       if (result) {
-        return result;
+        // return result;
       }
     }
   }
+
+  console.log("did it run?");
+  // eslint-disable-next-line no-undef
+  console.log(result);
+  console.log(test1);
 }

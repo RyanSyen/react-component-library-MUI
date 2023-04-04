@@ -31,6 +31,7 @@ const UnauthenticatedApp = () => {
         element={<Navigate to="/refactored-tree-view" />}
       />
       <Route path="/treeviewR3" element={<Navigate to="/treeviewR3" />} />
+      <Route path="/notification" element={<Navigate to="/notification" />} />
     </Routes>
   );
 };
